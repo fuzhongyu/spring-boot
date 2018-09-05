@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fzy.core.dao.system.UserDao">
+	
+	<sql id="userColumn">
+		a.id,
+		a.username,
+		a.mobile,
+		a.nickname,
+		a.photo,
+		a.sex,
+		a.status,
+		a.admin_flag AS "adminFlag",
+		a.create_time AS "createTime",
+		a.update_time AS "updateTime",
+		a.remarks
+	</sql>
+
+
+	<select id="findList" resultType="User">
+		SELECT 
+		  <include refid="userColumn"/>
+		FROM system_user a
+		<where>
+			AND a.del_flag=0
+			<if test="username!=null and username!='' ">
+				AND a.username=#{username}
+			</if>
+			<if test="mobile !=null and mobile !='' ">
+				AND a.mobile=#{mobile}
+			</if>
+		</where>
+	</select>
+	
+	<select id="get" resultType="User">
+		SELECT
+			<include refid="userColumn"/>
+		FROM system_user a
+		WHERE a.id=#{id}
+	</select>
+
+	<select id="getByUserName" resultType="User">
+		SELECT
+			<include refid="userColumn"/>
+		FROM system_user a
+		WHERE a.username=#{username} AND del_flag=0
+	</select>
+
+	<select id="getPasswordByUserName" resultType="User">
+		SELECT
+			a.id,
+			a.username,
+			a.password
+		FROM system_user a
+		WHERE a.username=#{username} AND del_flag=0
+	</select>
+
+	<insert id="insert">
+		INSERT INTO system_user(
+			id, 
+			username,
+			password,
+			mobile,
+			nickname,
+			photo,
+			sex,
+			admin_falg,
+			create_time,
+			update_time,
+			remarks
+		) VALUES (
+			#{id}, 
+			#{username},
+			#{password},
+			#{mobile},
+			#{nickname},
+			#{photo},
+			#{sex},
+			#{adminFlag},
+			#{createTime},
+			#{updateTime},
+			#{remarks}
+		)
+	</insert>
+
+	<update id="update" parameterType="User">
+		UPDATE system_user
+		<set>
+			<if test="mobile !=null and mobile !=null ">
+				mobile=#{mobile},
+			</if>
+			<if test="nickname !=null ">
+				nickname=#{nickname},
+			</if>
+			<if test="photo!=null  ">
+				photo=#{photo},
+			</if>
+			<if test="sex !=null">
+				sex=#{sex},
+			</if>
+			<if test="updateTime !=null">
+				update_time=#{updateTime},
+			</if>
+			<if test="remarks !=null">
+				remarks=#{remarks},
+			</if>
+		</set>
+		WHERE id=#{id}
+	</update>
+
+	<update id="updatePassword" parameterType="User">
+		UPDATE system_user
+		<set>
+			<if test="password !=null ">
+				password=#{password},
+			</if>
+			<if test="updateTime !=null">
+				update_time=#{updateTime},
+			</if>
+		</set>
+		WHERE id=#{id}
+	</update>
+	
+	<update id="delete" parameterType="User">
+		UPDATE system_user
+		SET del_flag=1
+		WHERE id=#{id}
+	</update>
+
+
+	
+</mapper>

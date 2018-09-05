@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  scan=true，配置文件如果发生改变，将会被重新加载；
+			scanPeriod:设置监测时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。
+   		debug:当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。-->
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+
+	<!-- 文件输出格式 %d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+	<property name="PATTERN" value="%-12(%d{yyyy-MM-dd HH:mm:ss.SSS}) |-%-5level [%thread] %c [%L] -| %msg%n" />
+	<!-- dev文件路径 -->
+	<property name="DEV_FILE_PATH" value="/Users/fuzhongyu/Desktop/logs/test" />
+	<!-- prod文件路径 -->
+	<property name="PRO_FILE_PATH" value="/home/tbk/logs" />
+
+
+	<!--生产环境日志配置-->
+	<springProfile name="prod">
+
+		<!-- 标准输出：console -->
+		<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+			<encoder>
+				<pattern>${PATTERN}</pattern>
+			</encoder>
+		</appender>
+
+		<!--天日志文件-->
+		<appender name="DAILY" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<!--日志文件输出的文件名-->
+				<FileNamePattern>${PRO_FILE_PATH}/localhost-%d{yyyy-MM-dd}.log</FileNamePattern>
+				<!--日志文件保留天数-->
+				<MaxHistory>60</MaxHistory>
+			</rollingPolicy>
+			<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+				<pattern>${PATTERN}</pattern>
+			</encoder>
+		</appender>
+
+		<logger name="com.fzy.core" level="debug"/>
+
+		<root level="info">
+			<appender-ref ref="DAILY"/>
+			<appender-ref ref="CONSOLE"/>
+		</root>
+	</springProfile>
+
+
+	<!--开发环境日志配置-->
+	<springProfile name="dev">
+		<!-- 标准输出：console -->
+		<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+			<encoder>
+				<pattern>${PATTERN}</pattern>
+			</encoder>
+		</appender>
+
+		<logger name="com.fzy.core" level="debug"/>
+
+		<root level="info">
+			<appender-ref ref="CONSOLE"/>
+		</root>
+	</springProfile>
+
+</configuration>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 全局参数 -->
+	<settings>
+
+		<!-- 使用列别名替换列明 default:true -->
+		<setting name="useColumnLabel" value="true"/>
+
+		<!-- 允许JDBC 生成主键。需要驱动器支持。如果设为了true，这个设置将强制使用被生成的主键，有一些驱动器不兼容不过仍然可以执行。  default:false  -->
+		<setting name="useGeneratedKeys" value="false"/>
+
+		<!-- 使用驼峰命名法转换字段。 -->
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+
+		<!-- 打印查询语句 -->
+		<!--<setting name="logImpl" value="STDOUT_LOGGING" />-->
+
+	</settings>
+
+	<plugins>
+		<!-- PageHelper 分页插件配置,其他配置详见：https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/zh/HowToUse.md -->
+		<plugin interceptor="com.github.pagehelper.PageHelper">
+			<!--helperDialect：配置helperDialect属性来指定分页插件使用哪种方言：oracle,mysql,mariadb,sqlite,hsqldb,postgresql,db2,sqlserver,informix,h2,sqlserver2012,derby -->
+			<property name="helperDialect" value="mysql"/>
+			<!-- pageSizeZero：默认值为 false，当该参数设置为 true 时，如果 pageSize=0 就会查询出全部的结果（相当于没有执行分页查询，但是返回结果仍然是 Page 类型）-->
+			<property name="pageSizeZero" value="true"/>
+			<!-- reasonable：分页合理化参数，默认值为false。当该参数设置为 true 时，pageNum<=0 时会查询第一页， pageNum>pages（超过总数时），会查询最后一页。默认false 时，直接根据参数进行查询-->
+			<property name="reasonable" value="true"/>
+			<!-- always总是返回PageInfo类型,check检查返回类型是否为PageInfo,none返回Page -->
+			<property name="returnPageInfo" value="none"/>
+		</plugin>
+	</plugins>
+
+</configuration>
