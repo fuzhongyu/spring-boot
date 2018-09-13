@@ -26,7 +26,6 @@ public class CustomWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
     //添加日志拦截器
     registry.addInterceptor(logInterceptor())
         .addPathPatterns("/console/v1/**")
-        .excludePathPatterns("/console/v1/order/info/action/import_order")
         .excludePathPatterns("/api/v1/upload/**");
 
 
