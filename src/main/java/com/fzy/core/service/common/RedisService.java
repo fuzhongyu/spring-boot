@@ -5,12 +5,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.stereotype.Service;
+
 import java.util.concurrent.TimeUnit;
 
 /**
  * @author: fucai
  * @Date: 2018/9/5
  */
+@Service
 public class RedisService {
 
     private static final Logger logger= LoggerFactory.getLogger(RedisService.class);
