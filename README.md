@@ -12,5 +12,11 @@
         权限管理框架shiro
         
         数据库文件在sql目录下
+        
+   #### 3. web端平台地址
+   
+        https://github.com/fuzhongyu/vue-web 
+        
+                  
        
         
