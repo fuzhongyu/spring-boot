@@ -4,6 +4,8 @@ import com.fzy.core.validator.annotation.NotNullValid;
 import com.fzy.core.validator.group.Group_1;
 import lombok.Getter;
 import lombok.Setter;
+import com.fzy.core.validator.annotation.NotNullValid;
+import com.fzy.core.validator.group.Group_1;
 
 /**
  * 密码vo类
@@ -14,8 +16,8 @@ import lombok.Setter;
 @Getter
 @Setter
 
-@NotNullValid.List({@NotNullValid(fieldName = "oldPassword",message = "旧密码不能为空",groups = {Group_1.class}),
-    @NotNullValid(fieldName = "newPassword",message = "新密码不能为空",groups = {Group_1.class})})
+@NotNullValid.List({@NotNullValid(fieldName = "oldPassword", message = "旧密码不能为空", groups = {Group_1.class}),
+        @NotNullValid(fieldName = "newPassword", message = "新密码不能为空", groups = {Group_1.class})})
 public class PasswordVo {
 
   private String oldPassword;

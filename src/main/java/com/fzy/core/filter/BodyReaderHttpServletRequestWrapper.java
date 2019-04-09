@@ -1,8 +1,5 @@
 package com.fzy.core.filter;
 
-import com.fzy.core.base.ServiceException;
-import com.fzy.core.config.CustomConfigProperties;
-import com.fzy.core.config.ErrorsMsg;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -14,8 +11,12 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.fzy.core.base.ServiceException;
+import com.fzy.core.config.CustomConfigProperties;
+import com.fzy.core.config.ErrorsMsg;
 
 /**
  * 拦截请求，添加自定义请求逻辑(获取请求参数)
@@ -25,45 +26,47 @@ import org.slf4j.LoggerFactory;
  */
 public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
-    private final static Logger logger= LoggerFactory.getLogger(BodyReaderHttpServletRequestWrapper.class);
+    private final static Logger logger = LoggerFactory.getLogger(BodyReaderHttpServletRequestWrapper.class);
 
 
-    private byte[] body=new byte[]{};
+    private byte[] body = new byte[]{};
 
     public BodyReaderHttpServletRequestWrapper(HttpServletRequest request) {
         super(request);
         //获取请求参数值
-        String requestParam=getBodyString(request);
-        if (requestParam==null){
-            BodyReaderFilter.addValueToMyThreadLocal("requestParamters","{}");
+        String requestParam = getBodyString(request);
+        if (requestParam == null) {
+            BodyReaderFilter.addValueToMyThreadLocal("requestParamters", "{}");
             return;
         }
         this.body = requestParam.getBytes(Charset.forName("utf-8"));
         //将值写入线程变量中
         try {
-            String paramters=new String(body,"utf-8");
+            String paramters = new String(body, "utf-8");
             //获取请求参数
-           BodyReaderFilter.addValueToMyThreadLocal("requestParamters",paramters);
+            BodyReaderFilter.addValueToMyThreadLocal("requestParamters", paramters);
 
         } catch (UnsupportedEncodingException e) {
-            BodyReaderFilter.addValueToMyThreadLocal("requestParamters","{}");
+            BodyReaderFilter.addValueToMyThreadLocal("requestParamters", "{}");
         }
 
     }
 
     /**
-     *  继承实现getReader()重写逻辑，自定义的HttpServletRequestWrapper将原始的HttpServletRequest对象进行再次封装
+     * 继承实现getReader()重写逻辑，自定义的HttpServletRequestWrapper将原始的HttpServletRequest对象进行再次封装
+     *
      * @return
      * @throws IOException
      */
     @Override
-    public BufferedReader getReader() throws IOException{
+    public BufferedReader getReader() throws IOException {
         return new BufferedReader(new InputStreamReader(getInputStream()));
     }
 
 
     /**
      * 将body体中的字符串转换为字节流
+     *
      * @return
      * @throws IOException
      */
@@ -99,10 +102,11 @@ public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapp
 
     /**
      * 获取httpServletRequest流数据方法
+     *
      * @param request
      * @return
      */
-    private static String getBodyString(ServletRequest request){
+    private static String getBodyString(ServletRequest request) {
         StringBuilder strReturnVal = new StringBuilder("");
         InputStreamReader isr = null;
         try {
@@ -114,20 +118,20 @@ public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapp
                     break;
                 }
                 strReturnVal = strReturnVal.append(c, 0, ilen);
-                if(strReturnVal.length() > CustomConfigProperties.MAX_CONTEXT_LENGTH){
-                    throw new ServiceException(ErrorsMsg.ERR_1002,"报文超过最大限制");
+                if (strReturnVal.length() > CustomConfigProperties.MAX_CONTEXT_LENGTH) {
+                    throw new ServiceException(ErrorsMsg.ERR_1002, "报文超过最大限制");
                 }
             }
             return strReturnVal.toString();
         } catch (Exception e) {
-            logger.error("读取http请求内容出错" , e);
+            logger.error("读取http请求内容出错", e);
             return null;
         } finally {
             if (isr != null) {
                 try {
                     isr.close();
                 } catch (IOException e) {
-                    logger.error("关闭request输入流出错" , e);
+                    logger.error("关闭request输入流出错", e);
                 }
             }
         }

@@ -1,132 +1,97 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fzy.core.dao.system.UserDao">
-	
+
 	<sql id="userColumn">
 		a.id,
 		a.username,
-		a.mobile,
+		a.password,
 		a.nickname,
-		a.photo,
-		a.sex,
 		a.status,
-		a.admin_flag AS "adminFlag",
-		a.create_time AS "createTime",
-		a.update_time AS "updateTime",
+		a.type,
 		a.remarks
 	</sql>
 
 
 	<select id="findList" resultType="User">
-		SELECT 
-		  <include refid="userColumn"/>
-		FROM system_user a
+		SELECT
+		<include refid="userColumn"/>
+		FROM sys_user a
 		<where>
-			AND a.del_flag=0
+			AND a.id > 1
 			<if test="username!=null and username!='' ">
-				AND a.username=#{username}
+				AND a.username LIKE CONCAT('%',#{username},'%')
 			</if>
-			<if test="mobile !=null and mobile !='' ">
-				AND a.mobile=#{mobile}
+			<if test="nickname!=null and nickname!=''">
+				AND a.nickname LIKE CONCAT('%',#{nickname},'%')
+			</if>
+			<if test="type!=null">
+				AND a.type=#{type}
+			</if>
+			<if test="status!=null">
+				AND a.status=#{status}
 			</if>
 		</where>
 	</select>
-	
+
 	<select id="get" resultType="User">
 		SELECT
-			<include refid="userColumn"/>
-		FROM system_user a
+		<include refid="userColumn"/>
+		FROM sys_user a
 		WHERE a.id=#{id}
 	</select>
 
 	<select id="getByUserName" resultType="User">
 		SELECT
-			<include refid="userColumn"/>
-		FROM system_user a
-		WHERE a.username=#{username} AND del_flag=0
-	</select>
-
-	<select id="getPasswordByUserName" resultType="User">
-		SELECT
-			a.id,
-			a.username,
-			a.password
-		FROM system_user a
-		WHERE a.username=#{username} AND del_flag=0
+		<include refid="userColumn"/>
+		FROM sys_user a
+		WHERE a.username=#{username}
 	</select>
 
 	<insert id="insert">
-		INSERT INTO system_user(
-			id, 
+		INSERT INTO sys_user(
+			id,
 			username,
 			password,
-			mobile,
 			nickname,
-			photo,
-			sex,
-			admin_falg,
-			create_time,
-			update_time,
+			type,
 			remarks
 		) VALUES (
-			#{id}, 
+			#{id},
 			#{username},
 			#{password},
-			#{mobile},
 			#{nickname},
-			#{photo},
-			#{sex},
-			#{adminFlag},
-			#{createTime},
-			#{updateTime},
+			#{type},
 			#{remarks}
 		)
 	</insert>
 
 	<update id="update" parameterType="User">
-		UPDATE system_user
+		UPDATE sys_user
 		<set>
-			<if test="mobile !=null and mobile !=null ">
-				mobile=#{mobile},
+			<if test="password !=null and password !='' ">
+				password=#{password},
 			</if>
-			<if test="nickname !=null ">
+			<if test="nickname != null ">
 				nickname=#{nickname},
 			</if>
-			<if test="photo!=null  ">
-				photo=#{photo},
+			<if test="type != null">
+				type = #{type},
 			</if>
-			<if test="sex !=null">
-				sex=#{sex},
+			<if test="status != null">
+				status=#{status},
 			</if>
-			<if test="updateTime !=null">
-				update_time=#{updateTime},
-			</if>
-			<if test="remarks !=null">
+			<if test="remarks != null ">
 				remarks=#{remarks},
 			</if>
 		</set>
 		WHERE id=#{id}
 	</update>
 
-	<update id="updatePassword" parameterType="User">
-		UPDATE system_user
-		<set>
-			<if test="password !=null ">
-				password=#{password},
-			</if>
-			<if test="updateTime !=null">
-				update_time=#{updateTime},
-			</if>
-		</set>
+	<delete id="delete">
+		DELETE FROM sys_user
 		WHERE id=#{id}
-	</update>
-	
-	<update id="delete" parameterType="User">
-		UPDATE system_user
-		SET del_flag=1
-		WHERE id=#{id}
-	</update>
+	</delete>
 
 
-	
 </mapper>

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 自定义配置文件
+ *
  * @author Fucai
  * @date 2018/3/19
  */
@@ -17,6 +18,11 @@ public class CustomConfigProperties {
    * 项目名称
    */
   public static String PROJECT_NAME;
+
+  /**
+   * 版本信息
+   */
+  public static String PROJECT_CONSOLE_URL;
 
   /**
    * 页码
@@ -32,6 +38,11 @@ public class CustomConfigProperties {
    * token过期时间
    */
   public static Long TOKEN_EXPIRATION;
+
+  /**
+   * token过期时间更新
+   */
+  public static Long TOKEN_EXPIRATION_UPDATE;
 
   /**
    * 请求参数最大长度
@@ -65,6 +76,11 @@ public class CustomConfigProperties {
     PROJECT_NAME = projectName;
   }
 
+  @Value("${custom.console}")
+  public void setConsole(String console) {
+    PROJECT_CONSOLE_URL = console;
+  }
+
   @Value("${custom.page_no}")
   public void setPageNo(Integer pageNo) {
     PAGE_NO = pageNo;
@@ -78,6 +94,11 @@ public class CustomConfigProperties {
   @Value("${custom.token_expiration}")
   public void setTokenExpiration(Long tokenExpiration) {
     TOKEN_EXPIRATION = tokenExpiration;
+  }
+
+  @Value("${custom.token_expiration_update}")
+  public void setTokenExpirationUpdate(Long tokenExpirationUpdate) {
+    TOKEN_EXPIRATION_UPDATE = tokenExpirationUpdate;
   }
 
   @Value("${custom.max_context_length}")

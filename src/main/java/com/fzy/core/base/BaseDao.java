@@ -13,14 +13,16 @@ public interface BaseDao<T> {
 
     /**
      * 查询数据列表
+     *
      * @param entity
      * @return
      */
-     List<T> findList(T entity);
+    List<T> findList(T entity);
 
 
     /**
      * 根据id查询
+     *
      * @param id
      * @return
      */
@@ -29,6 +31,7 @@ public interface BaseDao<T> {
 
     /**
      * 插入数据
+     *
      * @param entity
      * @return
      */
@@ -36,6 +39,7 @@ public interface BaseDao<T> {
 
     /**
      * 批量插入
+     *
      * @param list
      * @return
      */
@@ -44,24 +48,28 @@ public interface BaseDao<T> {
 
     /**
      * 更新数据
+     *
      * @param entity
      * @return
      */
     int update(T entity);
 
-
-    /**
-     * 删除数据（逻辑删除，更新del_flag字段为false）
-     * @param entity
-     * @return
-     */
-     int delete(T entity);
-
     /**
      * 删除数据（非逻辑删除）
+     *
      * @param id
      * @return
      */
-     int del(Long id);
+    int delete(Long id);
+
+
+    /**
+     * 删除数据（逻辑删除，更新del_flag字段为false）
+     *
+     * @param entity
+     * @return
+     */
+    int del(T entity);
+
 
 }

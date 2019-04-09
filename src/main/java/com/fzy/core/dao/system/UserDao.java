@@ -16,9 +16,4 @@ public interface UserDao extends BaseDao<User> {
 
 
   User getByUserName(String username);
-
-  User getPasswordByUserName(String username);
-
-  Integer updatePassword(User user);
-
 }

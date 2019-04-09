@@ -1,12 +1,15 @@
 package com.fzy.core.base;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.io.Serializable;
+import java.util.Date;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+
 import com.fzy.core.util.IdWorker;
 import com.fzy.core.validator.group.GroupIdNotNull;
 import com.fzy.core.validator.group.GroupIdNull;
-import java.io.Serializable;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,7 +32,7 @@ public abstract class BaseEntity<T> implements Serializable {
     public static final Integer DEL_FLAG_DELETE = 1;
 
     @NotNull(message = "id不能为空", groups = GroupIdNotNull.class)
-    @Null(message = "不可传id",groups = GroupIdNull.class)
+    @Null(message = "不可传id", groups = GroupIdNull.class)
     protected Long id;
 
     /**
@@ -39,14 +42,19 @@ public abstract class BaseEntity<T> implements Serializable {
     protected Boolean isCreateId = true;
 
     /**
-     *创建时间
+     * 创建者
      */
-    protected Long createTime;
+    protected String creator;
+
+    /**
+     * 创建时间
+     */
+    protected Date createTime;
 
     /**
      * 更新时间
      */
-    protected Long updateTime;
+    protected Date updateTime;
 
     /**
      * 删除标记：0-正常，1-删除
@@ -77,14 +85,15 @@ public abstract class BaseEntity<T> implements Serializable {
      */
     public void preInsert() {
         if (this.isCreateId) {
-            this.id=IdWorker.createId();
+            this.id = IdWorker.createId();
         }
-        this.createTime = System.currentTimeMillis();
-        this.updateTime=System.currentTimeMillis();
+        this.creator = "admin";
+        this.createTime = new Date();
+        this.updateTime = new Date();
     }
 
     public void preUpdate() {
-        this.updateTime = System.currentTimeMillis();
+        this.updateTime = new Date();
     }
 
 }

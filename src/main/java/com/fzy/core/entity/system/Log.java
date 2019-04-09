@@ -1,9 +1,9 @@
 package com.fzy.core.entity.system;
 
-import com.fzy.core.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import com.fzy.core.base.BaseEntity;
 
 /**
  * 日志实体类
@@ -34,7 +34,7 @@ public class Log extends BaseEntity<Log> {
 	 */
 	private String requestUri;
 	/**
-	 *  操作的方式
+	 * 操作的方式
 	 */
 	private String method;
 	/**
@@ -50,7 +50,7 @@ public class Log extends BaseEntity<Log> {
 	 */
 	private String exception;
 	/**
-	 *  开始时间
+	 * 开始时间
 	 */
 	private Long beginDate;
 	/**
@@ -59,13 +59,13 @@ public class Log extends BaseEntity<Log> {
 	private Long endDate;
 
 	/**
-	 *日志类型（1：接入日志；2：错误日志）
- 	 */
+	 * 日志类型（1：接入日志；2：错误日志）
+	 */
 
 	public static final String TYPE_ACCESS = "1";
 	public static final String TYPE_EXCEPTION = "2";
 
-	
+
 	@Override
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this);

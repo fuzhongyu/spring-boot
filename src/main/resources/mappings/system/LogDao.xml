@@ -3,29 +3,29 @@
 <mapper namespace="com.fzy.core.dao.system.LogDao">
 
 	<insert id="insert">
-		INSERT INTO system_log(
-			id, 
-			type, 
+		INSERT INTO sys_log(
+			id,
+			type,
 			title,
 			create_time,
-			remote_addr, 
-			user_agent, 
-			request_uri, 
-			method, 
-			params, 
+			remote_addr,
+			user_agent,
+			request_uri,
+			method,
+			params,
 			exception
 		) VALUES (
-			#{id}, 
-			#{type}, 
-			#{title}, 
+			#{id},
+			#{type},
+			#{title},
 			#{createTime},
-			#{remoteAddr}, 
-			#{userAgent}, 
-			#{requestUri}, 
-			#{method}, 
-			#{params}, 
+			#{remoteAddr},
+			#{userAgent},
+			#{requestUri},
+			#{method},
+			#{params},
 			#{exception}
 		)
 	</insert>
-	
+
 </mapper>

@@ -1,9 +1,10 @@
 package com.fzy.core.config;
 
-import com.fzy.core.util.PropertiesLoader;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
+import com.fzy.core.util.PropertiesLoader;
 
 /**
  * 错误码基类
@@ -13,12 +14,12 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class ErrorsMsg {
 
-    private static ErrorsMsg errorsMsg=new ErrorsMsg();
+    private static ErrorsMsg errorsMsg = new ErrorsMsg();
 
     /**
      * 存储错误码
      */
-    private static Map<Integer,String> errorsMap=new HashMap<>();
+    private static Map<Integer, String> errorsMap = new HashMap<>();
 
     /**
      * 属性文件加载对象
@@ -35,10 +36,11 @@ public class ErrorsMsg {
 
     /**
      * 获取配置
+     *
      * @param erroCode 错误码
      * @return
      */
-    public static String getConfig(Integer erroCode){
+    public static String getConfig(Integer erroCode) {
         String value = errorsMap.get(erroCode);
         if (value == null) {
             try {
@@ -54,40 +56,50 @@ public class ErrorsMsg {
     /**
      * 操作成功
      */
-    public final static Integer SUCC_0=0;
+    public final static Integer SUCC_0 = 0;
     /**
      * 系统异常
      */
-    public final static Integer ERR_1=1;
+    public final static Integer ERR_1 = 1;
     /**
-     * url非法篡改
+     * 用户非法篡改
      */
-    public final static Integer ERR_2=2;
+    public final static Integer ERR_2 = 2;
 
 
     /**
      * 登录失效，请重新登录
      */
-    public final static Integer ERR_1001=1001;
+    public final static Integer ERR_1001 = 1001;
     /**
      * 参数异常
      */
-    public final static Integer ERR_1002=1002;
+    public final static Integer ERR_1002 = 1002;
 
     /**
      * 登录密码错误
      */
-    public final static Integer ERR_1003=1003;
+    public final static Integer ERR_1003 = 1003;
 
     /**
      * 密码修改成功，请重新登录
      */
-    public final static Integer ERR_1004=1004;
+    public final static Integer ERR_1004 = 1004;
 
+    /**
+     * 无操作权限
+     */
+    public final static Integer ERR_1005 = 1005;
 
+    /**
+     * 账户冻结
+     */
+    public final static Integer ERR_1006 = 1006;
 
-
-
+    /**
+     * 账户不存在
+     */
+    public final static Integer ERR_1007 = 1007;
 
 
 }

@@ -1,21 +1,26 @@
 package com.fzy.core.base;
 
+import com.fzy.core.config.CustomConfigProperties;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.fzy.core.config.CustomConfigProperties;
+
+import java.util.Date;
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import com.fzy.core.config.CustomConfigProperties;
 
 /**
  * service 基类
+ *
  * @author Fucai
  * @date 2018/3/19
  */
 @Transactional(readOnly = true)
-public abstract class BaseService<D extends BaseDao<T>, T extends BaseEntity<T>>{
+public abstract class BaseService<D extends BaseDao<T>, T extends BaseEntity<T>> {
 
     private Logger logger = LoggerFactory.getLogger(BaseService.class);
 
@@ -63,26 +68,28 @@ public abstract class BaseService<D extends BaseDao<T>, T extends BaseEntity<T>>
 
     /**
      * 保存数据（插入或更新）
+     *
      * @param entity
      */
     @Transactional(readOnly = false)
     public Integer save(T entity) {
-        if (entity.getId()==null){
+        if (entity.getId() == null) {
             entity.preInsert();
-           return dao.insert(entity);
-        }else{
+            return dao.insert(entity);
+        } else {
             entity.preUpdate();
-          return   dao.update(entity);
+            return dao.update(entity);
         }
     }
 
     /**
      * 保存并返回
+     *
      * @param entity
      * @return
      */
     @Transactional(readOnly = false)
-    public T saveAndReturn(T entity){
+    public T saveAndReturn(T entity) {
         save(entity);
         return get(entity.getId());
     }
@@ -102,18 +109,6 @@ public abstract class BaseService<D extends BaseDao<T>, T extends BaseEntity<T>>
         return dao.batchInsert(entityList);
     }
 
-    /**
-     * 逻辑删除
-     *
-     * @param entity
-     * @return
-     */
-    @Transactional(readOnly = false)
-    public int delete(T entity) {
-        entity.setUpdateTime(System.currentTimeMillis());
-        entity.setDeleteFlag(BaseEntity.DEL_FLAG_DELETE);
-        return dao.delete(entity);
-    }
 
     /**
      * 删除（非逻辑删除）
@@ -122,7 +117,22 @@ public abstract class BaseService<D extends BaseDao<T>, T extends BaseEntity<T>>
      * @return
      */
     @Transactional(readOnly = false)
-    public int del(Long id) {
-        return dao.del(id);
+    public int delete(Long id) {
+        return dao.delete(id);
     }
+
+    /**
+     * 逻辑删除
+     *
+     * @param entity
+     * @return
+     */
+    @Transactional(readOnly = false)
+    public int del(T entity) {
+        entity.setUpdateTime(new Date());
+        entity.setDeleteFlag(BaseEntity.DEL_FLAG_DELETE);
+        return dao.del(entity);
+    }
+
+
 }
