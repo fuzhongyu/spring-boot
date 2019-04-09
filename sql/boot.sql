@@ -32,7 +32,7 @@ CREATE TABLE `sys_log` (
   `title` varchar(255) DEFAULT NULL COMMENT '日志标题',
   `remote_addr` char(15) NOT NULL DEFAULT '' COMMENT '用户请求ip',
   `request_uri` varchar(255) NOT NULL DEFAULT '' COMMENT '请求uri',
-  `user_agent` varchar(64) DEFAULT NULL COMMENT '操作用户代理信息',
+  `user_agent` varchar(1024) DEFAULT NULL COMMENT '操作用户代理信息',
   `method` varchar(16) DEFAULT NULL COMMENT '请求方法',
   `params` mediumtext COMMENT '请求参数',
   `exception` mediumtext COMMENT '异常信息',
