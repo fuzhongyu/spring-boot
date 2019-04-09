@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fzy.core.dao.system.RolePermissionDao">
+
+
+	<select id="getPermissionListByRoleId" resultType="java.lang.Long">
+		SELECT DISTINCT(permission_id)
+		FROM sys_role_permission a
+		JOIN sys_permission b ON a.permission_id = b.id
+		WHERE a.role_id = #{roleId}
+	</select>
+
+	<insert id="batchInsert">
+		INSERT INTO sys_role_permission (
+			role_id,
+			permission_id
+		) VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+			  #{item.roleId},
+			  #{item.permissionId}
+			)
+		</foreach>
+	</insert>
+
+	<delete id="deletePermissionByRole">
+		DELETE FROM sys_role_permission
+		WHERE role_id = #{roleId}
+	</delete>
+
+</mapper>

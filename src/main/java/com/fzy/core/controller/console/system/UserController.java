@@ -1,4 +1,4 @@
-package com.fzy.core.controller.console.system;
+package com.fzy.core.controller.system;
 
 import com.fzy.core.base.BaseController;
 import com.fzy.core.base.PageEntity;

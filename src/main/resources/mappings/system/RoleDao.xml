@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fzy.core.dao.system.RoleDao">
+
+    <sql id="roleColumn">
+		a.id,
+		a.name,
+		a.description
+	</sql>
+
+    <select id="findList" resultType="Role">
+        SELECT
+        <include refid="roleColumn"/>
+        FROM sys_role a
+        <where>
+            AND id > 1
+            <if test="name !=null and name !='' ">
+                AND a.name LIKE CONCAT('%', #{name}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="findRolesByUser" resultType="Role">
+        SELECT
+        <include refid="roleColumn"/>
+        FROM sys_role a
+        JOIN sys_user_role b
+        ON a.id = b.role_id
+        WHERE b.user_id = #{userId}
+    </select>
+
+    <select id="get" resultType="Role">
+        SELECT
+        <include refid="roleColumn"/>
+        FROM sys_role a
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insert">
+		INSERT INTO sys_role(
+			id, 
+			name,
+			description
+		) VALUES (
+			#{id}, 
+			#{name},
+			#{description}
+		)
+	</insert>
+
+    <update id="update">
+        UPDATE sys_role
+        <set>
+            <if test="name !=null ">
+                name = #{name},
+            </if>
+            <if test="description !=null ">
+                description = #{description}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE  FROM sys_role
+        WHERE id=#{id}
+    </delete>
+
+</mapper>
