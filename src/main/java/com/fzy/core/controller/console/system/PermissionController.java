@@ -46,13 +46,14 @@ public class PermissionController extends BaseController {
 
     /**
      * 根据id查询
+     *
      * @param id
      * @return
      */
     @GetMapping(value = "{id}")
     @RequiresPermissions({"system:permission:view"})
-    public ResponseResult getInfo(@PathVariable("id") String id){
-        if (ParamUtil.LongParam(id) == null){
+    public ResponseResult getInfo(@PathVariable("id") String id) {
+        if (ParamUtil.LongParam(id) == null) {
             throw new ServiceException(ErrorsMsg.ERR_2);
         }
         return responseEntity(ErrorsMsg.SUCC_0, permissionService.get(ParamUtil.LongParam(id)));
@@ -60,13 +61,14 @@ public class PermissionController extends BaseController {
 
     /**
      * 保存修改权限
+     *
      * @param vo
      * @return
      */
     @PostMapping(value = "")
     @RequiresPermissions({"system:permission:edit"})
-    public ResponseResult save(@RequestBody @Validated({Group_1.class}) PermissionVo vo, BindingResult bindingResult){
-        if (bindingResult.hasErrors()){
+    public ResponseResult save(@RequestBody @Validated({Group_1.class}) PermissionVo vo, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             doValidateHandler(bindingResult);
         }
         permissionService.save(PermissionVo.convert2Entity(vo));
@@ -75,12 +77,13 @@ public class PermissionController extends BaseController {
 
     /**
      * 删除权限
+     *
      * @return
      */
     @DeleteMapping(value = "")
     @RequiresPermissions({"system:permission:del"})
-    public ResponseResult delete(@RequestParam(value = "idList[]", required = false) Long[] idList){
-        if (idList != null && idList.length > 0){
+    public ResponseResult delete(@RequestParam(value = "idList[]", required = false) Long[] idList) {
+        if (idList != null && idList.length > 0) {
             permissionService.batchDelete(Arrays.asList(idList));
         } else {
             throw new ServiceException(ErrorsMsg.ERR_1001, "请选择要删除的数据");

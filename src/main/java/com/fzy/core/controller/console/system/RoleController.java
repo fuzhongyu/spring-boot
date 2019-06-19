@@ -37,11 +37,12 @@ public class RoleController extends BaseController {
 
     /**
      * 查询角色列表
+     *
      * @param role
      * @return
      */
     @GetMapping(value = "")
-    public ResponseResult findList(Role role){
+    public ResponseResult findList(Role role) {
         return responseEntity(ErrorsMsg.SUCC_0, roleService.findList(role));
     }
 
@@ -93,12 +94,13 @@ public class RoleController extends BaseController {
 
     /**
      * 获取角色权限
+     *
      * @param roleId
      * @return
      */
     @GetMapping(value = "/{roleId}/permission")
-    public ResponseResult getRolePermission(@PathVariable("roleId") String roleId){
-        if (ParamUtil.LongParam(roleId) == null){
+    public ResponseResult getRolePermission(@PathVariable("roleId") String roleId) {
+        if (ParamUtil.LongParam(roleId) == null) {
             throw new ServiceException(ErrorsMsg.ERR_2);
         }
         return responseEntity(ErrorsMsg.SUCC_0, roleService.getPermissionListByRoleId(ParamUtil.LongParam(roleId)));
@@ -106,19 +108,20 @@ public class RoleController extends BaseController {
 
     /**
      * 给角色分配权限
+     *
      * @param vo
      * @return
      */
     @PostMapping(value = "/{roleId}/permission")
     @RequiresPermissions(value = "system:role:edit")
-    public ResponseResult updateRolePermission(@PathVariable("roleId") String roleId, @RequestBody @Validated({Group_1.class}) RolePermissionVo vo, BindingResult bindingResult){
+    public ResponseResult updateRolePermission(@PathVariable("roleId") String roleId, @RequestBody @Validated({Group_1.class}) RolePermissionVo vo, BindingResult bindingResult) {
         if (ParamUtil.LongParam(roleId) == null) {
             throw new ServiceException(ErrorsMsg.ERR_2);
         }
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             doValidateHandler(bindingResult);
         }
-        roleService.updateRolePermission(ParamUtil.LongParam(roleId),vo.getPermissionList());
+        roleService.updateRolePermission(ParamUtil.LongParam(roleId), vo.getPermissionList());
         return responseEntity(ErrorsMsg.SUCC_0);
     }
 
@@ -130,7 +133,7 @@ public class RoleController extends BaseController {
      */
     @DeleteMapping(value = "{roleId}")
     @RequiresPermissions(value = "system:role:del")
-    public ResponseResult delete(@PathVariable( value = "roleId") String roleId, HttpServletRequest request) {
+    public ResponseResult delete(@PathVariable(value = "roleId") String roleId, HttpServletRequest request) {
         if (ParamUtil.LongParam(roleId) == null) {
             throw new ServiceException(ErrorsMsg.ERR_2);
         }

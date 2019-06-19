@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class ExecutorServiceFactory {
 
-    private static ExecutorServiceFactory executorServiceFactory=null;
+    private static volatile ExecutorServiceFactory executorServiceFactory=null;
 
     private ExecutorService executors;
 

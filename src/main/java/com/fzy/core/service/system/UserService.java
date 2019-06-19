@@ -1,7 +1,7 @@
 package com.fzy.core.service.system;
 
 import com.alibaba.fastjson.JSONObject;
-import com.fzy.core.service.common.RedisService;
+import com.fzy.core.service.common.StringRedisService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -16,12 +16,11 @@ import com.fzy.core.config.ErrorsMsg;
 import com.fzy.core.config.util.PasswordSaltUtil;
 import com.fzy.core.dao.system.UserDao;
 import com.fzy.core.dao.system.UserRoleDao;
-import com.fzy.core.entity.system.Role;
 import com.fzy.core.entity.system.User;
 import com.fzy.core.entity.system.UserRole;
-import com.fzy.core.service.common.RedisService;
 import com.fzy.core.util.TokenUtil;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 用户service
@@ -40,7 +39,7 @@ public class UserService extends BaseService<UserDao, User> {
   private final static String USER_CACHE = "USER_";
 
   @Autowired
-  private RedisService redisService;
+  private StringRedisService redisService;
 
   @Autowired
   private UserRoleDao userRoleDao;
@@ -56,11 +55,11 @@ public class UserService extends BaseService<UserDao, User> {
     if (id == null) {
       return null;
     }
-    String userJsonString = redisService.get(USER_CACHE + id);
+    String userJsonString = redisService.getString(USER_CACHE + id);
     if (userJsonString == null) {
       User user = super.get(id);
       if (user != null) {
-        redisService.set(USER_CACHE + id, JSONObject.toJSONString(user));
+        redisService.setString(USER_CACHE + id, user);
       }
       return user;
     }
@@ -81,11 +80,9 @@ public class UserService extends BaseService<UserDao, User> {
     //更新用户角色关系
     userRoleDao.deleteRoleByUser(entity.getId());
     if (CollectionUtils.isNotEmpty(entity.getRoleList())){
-      List<UserRole> userRoleList = new ArrayList<>();
-      for (Role unit: entity.getRoleList()){
-        UserRole userRole = new UserRole(entity.getId(), unit.getId());
-        userRoleList.add(userRole);
-      }
+      List<UserRole> userRoleList = entity.getRoleList().stream()
+              .map(unit -> new UserRole(entity.getId(),unit.getId()))
+              .collect(Collectors.toList());
       userRoleDao.batchInsert(userRoleList);
     }
     return get(entity.getId());

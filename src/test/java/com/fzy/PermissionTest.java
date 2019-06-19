@@ -8,9 +8,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import com.fzy.core.entity.system.Permission;
-import com.fzy.core.service.system.PermissionService;
-
 import java.util.List;
 
 /**
@@ -28,6 +25,5 @@ public class PermissionTest {
     public void getTreeTest() {
         List<Permission> permission = permissionService.getMenuTree();
         System.out.println(JSON.toJSON(permission));
-
     }
 }

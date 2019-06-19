@@ -12,9 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 权限service
@@ -59,15 +59,11 @@ public class PermissionService extends BaseService<PermissionDao, Permission> {
      * @return
      */
     public Set<String> getPermissionsByUserId(Long userId) {
-        Set<String> returnSet = new HashSet<>();
         List<Permission> list = dao.findPermissionByUser(userId);
-        for (Permission unit : list) {
-            if (StringUtils.isBlank(unit.getPermission())){
-                continue;
-            }
-            returnSet.add(unit.getPermission());
-        }
-        return returnSet;
+        return list.stream()
+                .map(Permission::getPermission)
+                .filter(StringUtils::isNotBlank)
+                .collect(Collectors.toSet());
     }
 
 
@@ -99,15 +95,13 @@ public class PermissionService extends BaseService<PermissionDao, Permission> {
      * @param list
      * @return
      */
-    private Permission getTree(Long parentId, List<Permission> list) {
-        Permission returnPermission = null;
+    private Permission getTree(final Long parentId, List<Permission> list) {
         //先找出当前节点
-        for (Permission unit : list) {
-            if (unit.getId().equals(parentId)) {
-                returnPermission = unit;
-                break;
-            }
-        }
+        Permission returnPermission =list.stream()
+                .filter(unit -> unit.getId().equals(parentId))
+                .findFirst()
+                .orElse(null);
+
         if (returnPermission == null) {
             logger.error(">>>>>>>>>> 菜单根节点有误 <<<<<<<<<<<<");
             throw new ServiceException(ErrorsMsg.ERR_1);
@@ -115,15 +109,17 @@ public class PermissionService extends BaseService<PermissionDao, Permission> {
             //如果是按钮权限了，则不再寻找子节点
             return returnPermission;
         }
+
         //寻找子节点
-        for (Permission unit : list) {
+        list.stream().forEach(unit -> {
             if (unit.getParent().getId().equals(parentId)) {
                 //递归获取该子节点的 子节点列表
                 Permission childPermission = getTree(unit.getId(), list);
                 //将子节点加入到当前的子节点列表中
                 returnPermission.getChildNodes().add(childPermission);
             }
-        }
+        });
+
         //对子节点列表进行排序(Permission类实现了Comparable接口)
         if (CollectionUtils.isNotEmpty(returnPermission.getChildNodes())) {
             Collections.sort(returnPermission.getChildNodes());

@@ -13,8 +13,6 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartException;
-import com.fzy.core.config.CustomConfigProperties;
-import com.fzy.core.config.ErrorsMsg;
 
 /**
  * controller基类

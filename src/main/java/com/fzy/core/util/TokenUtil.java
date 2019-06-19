@@ -4,7 +4,7 @@ import com.fzy.core.base.ServiceException;
 import com.fzy.core.config.CustomConfigProperties;
 import com.fzy.core.config.ErrorsMsg;
 import com.fzy.core.entity.system.PayLoad;
-import com.fzy.core.service.common.RedisService;
+import com.fzy.core.service.common.StringRedisService;
 import com.fzy.core.util.encryption.AESUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +42,7 @@ public class TokenUtil {
   public final static String TOKEN_KEY="6F^b2B^E1GaeUc#r";
 
 
-  private static RedisService redisService=SpringContextHolder.getBean(RedisService.class);
+  private static StringRedisService redisService=SpringContextHolder.getBean(StringRedisService.class);
 
   /**
    * 创建token
@@ -58,7 +58,7 @@ public class TokenUtil {
       e.printStackTrace();
       throw new ServiceException(ErrorsMsg.ERR_1, "token生成失败");
     }
-    redisService.set(Token_Cache + token, ParamUtil.StringParam(data.getUserId()), CustomConfigProperties.TOKEN_EXPIRATION);
+    redisService.setString(Token_Cache + token, data.getUserId(), CustomConfigProperties.TOKEN_EXPIRATION);
     return token;
   }
 
@@ -69,7 +69,7 @@ public class TokenUtil {
    * @param clientUserId 请求头中的userId
    */
   public static void validateToken(String token,String clientUserId) {
-    String cacheUserId = redisService.get(Token_Cache + token);
+    String cacheUserId = redisService.getString(Token_Cache + token);
     if (cacheUserId == null) {
       throw new ServiceException(ErrorsMsg.ERR_1001);
     }else if (!cacheUserId.equals(clientUserId)){
@@ -77,7 +77,7 @@ public class TokenUtil {
     }
     //当token距离 上次在redis中更新的时间 大于指定值(注：该值小于过期时间)时，则去更新token在redis中的过期时间
     if (TOKEN_MANAGE.get(token) == null || System.currentTimeMillis() - TOKEN_MANAGE.get(token) > CustomConfigProperties.TOKEN_EXPIRATION_UPDATE) {
-      redisService.set(Token_Cache + token, cacheUserId, CustomConfigProperties.TOKEN_EXPIRATION);
+      redisService.setString(Token_Cache + token, cacheUserId, CustomConfigProperties.TOKEN_EXPIRATION);
       TOKEN_MANAGE.put(token, System.currentTimeMillis());
     }
 
@@ -99,7 +99,7 @@ public class TokenUtil {
    * @return
    */
   public static Long getUserId(String token) {
-    Long userId = ParamUtil.LongParam(redisService.get(Token_Cache + token));
+    Long userId = ParamUtil.LongParam(redisService.getString(Token_Cache + token));
     if (userId == null) {
       throw new ServiceException(ErrorsMsg.ERR_1001);
     }
