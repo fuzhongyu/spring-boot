@@ -4,7 +4,7 @@
         
    #### 1.安装依赖
        
-       本地需要安装jdk、maven,redis，mysql数据库 等 基础工具
+       本地需要安装jdk、maven,redis，mysql数据库 等 基础工具, idea安装插件lombok
        
    #### 2.项目介绍
       

@@ -3,7 +3,7 @@
 <mapper namespace="com.fzy.core.dao.report.ReportConfigDao">
 
     
-    <sql id="ReportFormConfigColumn">
+    <sql id="ReportConfigColumn">
         a.id,
         a.menu_name AS 'menuName',
         a.short_url AS 'shortUrl',
@@ -15,17 +15,17 @@
     </sql>
 
 
-    <select id="get" resultType="ReportFormConfig">
+    <select id="get" resultType="ReportConfig">
 		SELECT
-		  <include refid="ReportFormConfigColumn"/>
+		  <include refid="ReportConfigColumn"/>
 		FROM report_config
 		WHERE id = #{id}
     </select>
 
 
-    <select id="getByShortUrl" resultType="ReportFormConfig">
+    <select id="getByShortUrl" resultType="ReportConfig">
         SELECT 
-          <include refid="ReportFormConfigColumn"/>
+          <include refid="ReportConfigColumn"/>
 		FROM report_config
 		WHERE short_url = #{shortUrl}
     </select>

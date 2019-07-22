@@ -65,18 +65,18 @@ public class ExportConfigService{
      * @param conditionDataStr
      */
     public void exportStatList(Long id,String conditionDataStr) {
-        ReportConfig reportFormConfig = reportConfigService.get(id);
-        if (reportFormConfig == null || reportFormConfig.getSql() == null || reportFormConfig.getDataSource()==null) {
+        ReportConfig reportConfig = reportConfigService.get(id);
+        if (reportConfig == null || reportConfig.getSql() == null || reportConfig.getDataSource()==null) {
             return;
         }
 
         //查询数据
-        List<Map<String, Object>> statList = sqlPackageExecuteService.findList(reportFormConfig.getSql(),conditionDataStr,reportFormConfig.getDataSource());
+        List<Map<String, Object>> statList = sqlPackageExecuteService.findList(reportConfig.getSql(),conditionDataStr,reportConfig.getDataSource());
 
-        List<TheadVo> theadVoList=getTheadList(reportFormConfig.getConfig());
+        List<TheadVo> theadVoList=getTheadList(reportConfig.getConfig());
         Collections.sort(theadVoList);
 
-        String csvName = getExportFileName(reportFormConfig.getConfig()) +"_"+ (new Date().getTime()) ;
+        String csvName = getExportFileName(reportConfig.getConfig()) +"_"+ (new Date().getTime()) ;
 
 
         List<String> fieldList=new ArrayList<>();

@@ -77,11 +77,11 @@ public class TableConfigService {
      * @return
      */
     public PageEntity<Map<String,Object>> getPage(Long id, Integer pageNo, Integer pageSize, String conditionDataStr){
-        ReportConfig reportFormConfig = reportConfigService.get(id);
-        if (reportFormConfig == null || reportFormConfig.getSql() == null || reportFormConfig.getDataSource()==null) {
+        ReportConfig reportConfig = reportConfigService.get(id);
+        if (reportConfig == null || reportConfig.getSql() == null || reportConfig.getDataSource()==null) {
             return null;
         }
-        return sqlPackageExecuteService.findPage(reportFormConfig.getSql(),conditionDataStr,pageNo,pageSize,reportFormConfig.getDataSource());
+        return sqlPackageExecuteService.findPage(reportConfig.getSql(),conditionDataStr,pageNo,pageSize,reportConfig.getDataSource());
     }
 
 }
