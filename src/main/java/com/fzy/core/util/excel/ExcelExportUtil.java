@@ -68,9 +68,9 @@ public class ExcelExportUtil {
     /** 
      * 设置报表标题 
      *  
-     * @param columHeader  标题字符串数组
+     * @param columnHeader  标题字符串数组
      */  
-    public void createColumHeader(String[] columHeader) {  
+    public void createColumnHeader(String[] columnHeader) {
   
         // 设置列头 在第二行  
         HSSFRow row2 = sheet.createRow(1);  
@@ -96,11 +96,11 @@ public class ExcelExportUtil {
   
         HSSFCell cell3 = null;  
   
-        for (int i = 0; i < columHeader.length; i++) {  
+        for (int i = 0; i < columnHeader.length; i++) {
             cell3 = row2.createCell(i);  
             cell3.setCellType(HSSFCell.ENCODING_UTF_16);  
             cell3.setCellStyle(cellStyle);  
-            cell3.setCellValue(new HSSFRichTextString(columHeader[i]));
+            cell3.setCellValue(new HSSFRichTextString(columnHeader[i]));
         }  
     }
     

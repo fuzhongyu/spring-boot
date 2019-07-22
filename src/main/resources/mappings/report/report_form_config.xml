@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fzy.core.dao.report.ReportConfigDao">
+
+    
+    <sql id="ReportFormConfigColumn">
+        a.id,
+        a.menu_name AS 'menuName',
+        a.short_url AS 'shortUrl',
+        a.title,
+        a.chart_type AS 'shortType',
+        a.config,
+        a.sql,
+        a.data_source AS 'dataSource'
+    </sql>
+
+
+    <select id="get" resultType="ReportFormConfig">
+		SELECT
+		  <include refid="ReportFormConfigColumn"/>
+		FROM report_config
+		WHERE id = #{id}
+    </select>
+
+
+    <select id="getByShortUrl" resultType="ReportFormConfig">
+        SELECT 
+          <include refid="ReportFormConfigColumn"/>
+		FROM report_config
+		WHERE short_url = #{shortUrl}
+    </select>
+
+    <select id="customSelect" resultType="java.lang.Object">
+        <![CDATA[
+         ${sql}
+        ]]>
+    </select>
+
+</mapper>

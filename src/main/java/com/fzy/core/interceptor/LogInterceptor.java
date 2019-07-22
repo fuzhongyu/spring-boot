@@ -8,6 +8,7 @@ import com.fzy.core.util.ParamUtil;
 import com.fzy.core.util.StringUtil;
 import com.fzy.core.util.thread.ExcutorProcessPool;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -69,8 +70,7 @@ public class LogInterceptor implements HandlerInterceptor {
 			Long endTime = System.currentTimeMillis();
 		// 打印JVM信息。
 			logger.debug("计时结束：{}  耗时：{}  URI: {}  最大内存: {}m  已分配内存: {}m  已分配内存中的剩余空间: {}m  最大可用内存: {}m  返回参数: {} ",
-					new SimpleDateFormat("hh:mm:ss.SSS").format(endTime), DateUtil
-							.formatDateTime(endTime - beginTime),
+					DateUtil.formatDate(new Date(endTime),"hh:mm:ss.SSS"), endTime - beginTime,
 			request.getRequestURI(), Runtime.getRuntime().maxMemory()/1024/1024, Runtime.getRuntime().totalMemory()/1024/1024, Runtime.getRuntime().freeMemory()/1024/1024,
 			(Runtime.getRuntime().maxMemory()-Runtime.getRuntime().totalMemory()+Runtime.getRuntime().freeMemory())/1024/1024,responseParamsString==null?"":responseParamsString);
 
