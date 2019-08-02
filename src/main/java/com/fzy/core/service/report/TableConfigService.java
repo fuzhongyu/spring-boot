@@ -41,11 +41,11 @@ public class TableConfigService {
      * @return
      */
     public List<TheadVo> getTheadList(String config){
-        Object tableGourp= reportConfigService.analysisConfig(config).get(TABLE_GROUP);
-        if (tableGourp==null){
+        Object tableGroup= reportConfigService.analysisConfig(config).get(TABLE_GROUP);
+        if (tableGroup==null){
             return new ArrayList<>();
         }
-        return parseObj2TheadVoList(tableGourp);
+        return parseObj2TheadVoList(tableGroup);
     }
 
 
