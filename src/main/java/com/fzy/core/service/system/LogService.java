@@ -7,11 +7,12 @@ import org.springframework.stereotype.Service;
 
 /**
  * 日志service
+ *
  * @author Fucai
  * @date 2018/3/20
  */
 
 @Service
-public class LogService extends BaseService<LogDao,Log> {
+public class LogService extends BaseService<LogDao, Log> {
 
 }

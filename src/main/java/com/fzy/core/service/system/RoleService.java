@@ -8,6 +8,7 @@ import com.fzy.core.entity.system.RolePermission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -28,11 +29,12 @@ public class RoleService extends BaseService<RoleDao, Role> {
 
     /**
      * 获取用户角色
+     *
      * @param userId
      * @return
      */
-    public List<Role> getRolesByUserId(Long userId){
-        return  dao.findRolesByUser(userId);
+    public List<Role> getRolesByUserId(Long userId) {
+        return dao.findRolesByUser(userId);
     }
 
 
@@ -51,31 +53,32 @@ public class RoleService extends BaseService<RoleDao, Role> {
 
     /**
      * 根据角色获取权限
+     *
      * @param roleId
      * @return
      */
-    public List<Long> getPermissionListByRoleId(Long roleId){
+    public List<Long> getPermissionListByRoleId(Long roleId) {
         return rolePermissionDao.getPermissionListByRoleId(roleId);
     }
 
     /**
      * 更新角色的权限
+     *
      * @param roleId
      * @param permissionIdList
      */
     @Transactional(readOnly = false)
-    public void updateRolePermission(final Long roleId, List<Long> permissionIdList){
+    public void updateRolePermission(final Long roleId, List<Long> permissionIdList) {
         //先删除该角色的权限
         rolePermissionDao.deletePermissionByRole(roleId);
         //再插入新的权限
-        List<RolePermission> insertList =permissionIdList.stream()
-                .map(unit -> new RolePermission(roleId,unit))
+        List<RolePermission> insertList = permissionIdList.stream()
+                .map(unit -> new RolePermission(roleId, unit))
                 .collect(Collectors.toList());
 
         rolePermissionDao.batchInsert(insertList);
 
     }
-
 
 
 }

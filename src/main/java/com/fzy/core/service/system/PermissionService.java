@@ -80,10 +80,11 @@ public class PermissionService extends BaseService<PermissionDao, Permission> {
 
     /**
      * 批量删除权限
+     *
      * @param idList
      */
-    public void batchDelete(List<Long> idList){
-        if (idList.size() > 0){
+    public void batchDelete(List<Long> idList) {
+        if (idList.size() > 0) {
             dao.batchDelete(idList);
         }
     }
@@ -97,7 +98,7 @@ public class PermissionService extends BaseService<PermissionDao, Permission> {
      */
     private Permission getTree(final Long parentId, List<Permission> list) {
         //先找出当前节点
-        Permission returnPermission =list.stream()
+        Permission returnPermission = list.stream()
                 .filter(unit -> unit.getId().equals(parentId))
                 .findFirst()
                 .orElse(null);

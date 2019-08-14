@@ -8,7 +8,7 @@
         a.menu_name AS 'menuName',
         a.short_url AS 'shortUrl',
         a.title,
-        a.chart_type AS 'shortType',
+        a.chart_type AS 'chartType',
         a.config,
         a.sql,
         a.data_source AS 'dataSource'
@@ -18,7 +18,7 @@
     <select id="get" resultType="ReportConfig">
 		SELECT
 		  <include refid="ReportConfigColumn"/>
-		FROM report_config
+		FROM report_config a
 		WHERE id = #{id}
     </select>
 
@@ -26,11 +26,17 @@
     <select id="getByShortUrl" resultType="ReportConfig">
         SELECT 
           <include refid="ReportConfigColumn"/>
-		FROM report_config
+		FROM report_config a
 		WHERE short_url = #{shortUrl}
     </select>
 
-    <select id="customSelect" resultType="java.lang.Object">
+    <select id="customSelectOne" resultType="java.lang.Object">
+        <![CDATA[
+         ${sql}
+        ]]>
+    </select>
+
+    <select id="customSelectList" resultType="java.util.HashMap">
         <![CDATA[
          ${sql}
         ]]>

@@ -45,7 +45,7 @@ public class SqlPackageExecuteService extends BaseService<ReportConfigDao,Report
         //生成实际执行的sql
         String actuallyExecuteSql = buildSql(sql,JSONObject.parseObject(conditionDataJsonStr==null?"{}":conditionDataJsonStr));
         //执行sql
-        return (List<Map<String, Object>>) dao.customSelect(actuallyExecuteSql);
+        return dao.customSelectList(actuallyExecuteSql);
     }
 
 
@@ -61,7 +61,7 @@ public class SqlPackageExecuteService extends BaseService<ReportConfigDao,Report
         //生成实际执行的sql
         String actuallyExecuteSql = buildSql(sql,JSONObject.parseObject(conditionDataJsonStr==null?"{}":conditionDataJsonStr));
         //执行sql
-        return (Map<String, Object>) reportConfigDao.customSelect(actuallyExecuteSql);
+        return (Map<String, Object>) reportConfigDao.customSelectOne(actuallyExecuteSql);
     }
 
     /**
@@ -103,7 +103,7 @@ public class SqlPackageExecuteService extends BaseService<ReportConfigDao,Report
 
         Page<Map<String,Object>> page = PageHelper.startPage(pageNo, pageSize);
         //查询数据
-        List<Map<String, Object>> dataList = (List<Map<String, Object>>) dao.customSelect(actuallyExecuteSql);
+        List<Map<String, Object>> dataList = dao.customSelectList(actuallyExecuteSql);
 
 
         return new PageEntity<>(pageNo, pageSize, page.getTotal(), dataList);

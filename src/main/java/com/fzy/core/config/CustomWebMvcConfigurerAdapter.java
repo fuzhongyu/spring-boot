@@ -23,17 +23,17 @@ public class CustomWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
 
-    //添加日志拦截器
-    registry.addInterceptor(logInterceptor())
-            .addPathPatterns("/console/v1/**")
-            .excludePathPatterns("/api/v1/upload/**");
-
-
-    //登录验证拦截器
-    registry.addInterceptor(tokenInterceptor())
-            .addPathPatterns("/console/v1/**")
-            .addPathPatterns("/api/v1/**")
-            .excludePathPatterns("/console/v1/login");
+//    //添加日志拦截器
+//    registry.addInterceptor(logInterceptor())
+//            .addPathPatterns("/console/v1/**")
+//            .excludePathPatterns("/api/v1/upload/**");
+//
+//
+//    //登录验证拦截器
+//    registry.addInterceptor(tokenInterceptor())
+//            .addPathPatterns("/console/v1/**")
+//            .addPathPatterns("/api/v1/**")
+//            .excludePathPatterns("/console/v1/login");
 
     super.addInterceptors(registry);
   }

@@ -78,7 +78,6 @@ public class ReportService {
             //表头设置
             List<TheadVo> theadList = tableConfigService.getTheadList(reportConfig.getConfig());
             vo.setTheadList(theadList);
-
         }
 
         return vo;
