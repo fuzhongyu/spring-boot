@@ -25,12 +25,6 @@ public class TokenUtil {
 
 
   /**
-   * 用于控制token在redis中过期时间更新
-   */
-  private final static Map<String, Long> TOKEN_MANAGE = new ConcurrentHashMap<>();
-
-
-  /**
    * token缓存公共头部
    */
   private static final String Token_Cache = "Token_";
@@ -75,12 +69,7 @@ public class TokenUtil {
     }else if (!cacheUserId.equals(clientUserId)){
       throw new ServiceException(ErrorsMsg.ERR_2);
     }
-    //当token距离 上次在redis中更新的时间 大于指定值(注：该值小于过期时间)时，则去更新token在redis中的过期时间
-    if (TOKEN_MANAGE.get(token) == null || System.currentTimeMillis() - TOKEN_MANAGE.get(token) > CustomConfigProperties.TOKEN_EXPIRATION_UPDATE) {
-      redisService.setString(Token_Cache + token, cacheUserId, CustomConfigProperties.TOKEN_EXPIRATION);
-      TOKEN_MANAGE.put(token, System.currentTimeMillis());
-    }
-
+    redisService.setString(Token_Cache + token, cacheUserId, CustomConfigProperties.TOKEN_EXPIRATION);
   }
 
   /**

@@ -40,11 +40,6 @@ public class CustomConfigProperties {
   public static Long TOKEN_EXPIRATION;
 
   /**
-   * token过期时间更新
-   */
-  public static Long TOKEN_EXPIRATION_UPDATE;
-
-  /**
    * 请求参数最大长度
    */
   public static Integer MAX_CONTEXT_LENGTH;
@@ -94,11 +89,6 @@ public class CustomConfigProperties {
   @Value("${custom.token_expiration}")
   public void setTokenExpiration(Long tokenExpiration) {
     TOKEN_EXPIRATION = tokenExpiration;
-  }
-
-  @Value("${custom.token_expiration_update}")
-  public void setTokenExpirationUpdate(Long tokenExpirationUpdate) {
-    TOKEN_EXPIRATION_UPDATE = tokenExpirationUpdate;
   }
 
   @Value("${custom.max_context_length}")
