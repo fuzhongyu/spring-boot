@@ -58,7 +58,7 @@ public class LoginController extends BaseController {
   /**
    * 登出
    *
-   * @param request
+   * @param request 
    * @return
    */
   @GetMapping(value = "logout")
