@@ -21,7 +21,7 @@ public class ExcelExportUtil {
      */  
     public ExcelExportUtil(HSSFWorkbook wb, HSSFSheet sheet) {  
         this.wb = wb;
-        this.sheet = sheet;  
+        this.sheet = sheet;
     }  
   
     /** 

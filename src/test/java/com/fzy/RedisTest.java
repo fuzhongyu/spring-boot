@@ -5,6 +5,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
@@ -19,6 +21,16 @@ public class RedisTest {
 
     @Autowired
     private StringRedisService redisService;
+
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+
+    @Test
+    public void testIncreace() {
+        redisTemplate.opsForValue().increment("a", 1);
+        redisTemplate.opsForValue().increment("b", 1);
+        redisTemplate.opsForValue().increment("a", 1);
+    }
 
     @Test
     public void setHash() {
@@ -63,4 +75,5 @@ public class RedisTest {
         System.out.println(Arrays.toString(result.toArray()));
         System.out.println(Arrays.toString(result1.toArray()));
     }
+
 }
